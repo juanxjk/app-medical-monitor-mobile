@@ -1,0 +1,108 @@
+import 'package:app_medical_monitor/models/user.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+class DashboardView extends StatefulWidget {
+  final User _loggedUser;
+
+  DashboardView(this._loggedUser, {Key? key}) : super(key: key);
+
+  @override
+  _DashboardViewState createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<DashboardView> {
+  void _handleNavigatePatientListView() {
+  }
+
+  void _handleNavigateUserListView() {
+  }
+
+  void _handleNavigateDeviceListView() {
+  }
+
+  void _handleNavigateSettingsView() {
+  }
+
+  void _handleLogout() {
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Dashboard"),
+          actions: [
+            IconButton(
+              onPressed: _handleNavigateSettingsView,
+              icon: Icon(Icons.settings),
+            ),
+            TextButton.icon(
+              onPressed: _handleLogout,
+              icon: Icon(Icons.exit_to_app),
+              style: TextButton.styleFrom(primary: Colors.white),
+              label: Text("Logout"),
+            )
+          ],
+        ),
+        body: ListView(
+          children: [
+            Card(
+              margin: EdgeInsets.fromLTRB(10, 25, 10, 25),
+              child: Column(
+                children: [
+                  Text("Bem-vindo ${widget._loggedUser.fullName}"),
+                  ListTile(
+                    title: Text("Username"),
+                    subtitle: Text(widget._loggedUser.username),
+                  ),
+                  ListTile(
+                    title: Text("E-mail"),
+                    subtitle: Text(widget._loggedUser.email),
+                  ),
+                  SizedBox(
+                    height: 35,
+                  )
+                ],
+              ),
+            ),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 8.0,
+              children: [
+                GestureDetector(
+                  onTap: _handleNavigateUserListView,
+                  child: Card(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.people), Text("Usuários")],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: _handleNavigateDeviceListView,
+                  child: Card(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.devices), Text("Dispositivos")],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: _handleNavigatePatientListView,
+                  child: Card(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.people), Text("Pacientes")],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+}
