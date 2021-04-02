@@ -93,6 +93,7 @@ class _LoginViewState extends State<LoginView> {
           height: 60.0,
           child: TextFormField(
             controller: _usernameFieldController,
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14),
@@ -122,6 +123,8 @@ class _LoginViewState extends State<LoginView> {
           height: 60.0,
           child: TextFormField(
               controller: _passwordFieldController,
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: (_) => _handleLogin(),
               obscureText: true,
               cursorColor: Colors.white,
               decoration: InputDecoration(
