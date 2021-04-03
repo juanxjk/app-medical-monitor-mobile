@@ -220,25 +220,29 @@ class _LoginViewState extends State<LoginView> {
       body: Stack(
         children: [
           _bgGradient,
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _logoImg,
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      _usernameField,
-                      _passwordField,
-                      _keepSession,
-                      _loginButton,
-                    ],
-                  ),
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _logoImg,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          _usernameField,
+                          _passwordField,
+                          _keepSession,
+                          _loginButton,
+                        ],
+                      ),
+                    ),
+                    _signUpWidget,
+                  ],
                 ),
-                _signUpWidget,
-              ],
+              ),
             ),
           ),
         ],
