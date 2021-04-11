@@ -1,4 +1,5 @@
 import 'package:app_medical_monitor/models/user.dart';
+import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -25,6 +26,8 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void _handleLogout() {
+    Navigator.pop(context);
+    showErrorSnackBar(context, message: "Desconectado.");
   }
 
   @override
