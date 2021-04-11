@@ -1,3 +1,9 @@
+import 'package:app_medical_monitor/exceptions/server_exception.dart';
+import 'package:app_medical_monitor/exceptions/validation_exception.dart';
+import 'package:app_medical_monitor/models/user.dart';
+import 'package:app_medical_monitor/services/session_service.dart';
+import 'package:app_medical_monitor/views/dashboard_view.dart';
+import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -18,6 +24,29 @@ class _LoginViewState extends State<LoginView> {
       TextEditingController();
 
   void _handleLogin() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        final String username = _usernameFieldController.value.text;
+        final String password = _passwordFieldController.value.text;
+        _formKey.currentState?.reset();
+
+        showInfoSnackBar(context, message: "Autenticando...");
+
+        User loggedUser = await SessionService()
+            .login(username: username, password: password);
+
+        showSuccessSnackBar(context, message: "Autenticado");
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DashboardView(loggedUser)));
+      }
+    } on ValidationException {
+      showErrorSnackBar(context, message: "Credenciais inválidas");
+    } on ServerException catch (err) {
+      showErrorSnackBar(context, message: err.message);
+    } catch (err) {
+      showErrorSnackBar(context);
+    }
   }
 
   void _handleSignUp() {
