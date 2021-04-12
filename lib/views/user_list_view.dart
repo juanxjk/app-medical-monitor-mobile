@@ -1,5 +1,6 @@
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/user_service.dart';
+import 'package:app_medical_monitor/views/user_view.dart';
 import 'package:flutter/material.dart';
 
 class UsersListView extends StatefulWidget {
@@ -38,13 +39,20 @@ class _UsersListViewState extends State<UsersListView> {
     }
   }
 
+  void Function() _handleNavigateUserView(User user) => () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserView(widget._loggedUser, user),
+        ),
+      ).then((value) => _resetState());
+
   void _handleNavigateUserAdd() {
   }
 
   Widget _buildUserItem(User user) => Card(
         color: Colors.blue.shade500,
         child: ListTile(
-          onTap: (){},
+          onTap: _handleNavigateUserView(user),
           leading: Icon(Icons.person),
           title: Text(
             user.fullName,
