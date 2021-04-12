@@ -8,7 +8,7 @@ class Device {
   String? description;
   DeviceStatus status;
   bool canMeasureHeartRate;
-  bool canMeasureO2pulse;
+  bool canMeasureO2Pulse;
   bool canMeasureTemp;
   double? heartRate;
   double? o2pulse;
@@ -20,7 +20,7 @@ class Device {
       required this.title,
       this.description,
       this.status = DeviceStatus.none,
-      this.canMeasureO2pulse = false,
+      this.canMeasureO2Pulse = false,
       this.canMeasureHeartRate = false,
       this.canMeasureTemp = false,
       this.patient});
