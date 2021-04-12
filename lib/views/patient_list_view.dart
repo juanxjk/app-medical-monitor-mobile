@@ -2,6 +2,7 @@ import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
 import 'package:app_medical_monitor/views/patient_add_view.dart';
+import 'package:app_medical_monitor/views/patient_view.dart';
 import 'package:flutter/material.dart';
 
 class PatientsListView extends StatefulWidget {
@@ -41,6 +42,14 @@ class _PatientsListViewState extends State<PatientsListView> {
     }
   }
 
+  void Function() _handleNavigatePatientView(Patient patient) =>
+      () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PatientView(widget._loggedUser, patient),
+            ),
+          ).then((value) => _resetState());
+
   void _handleNavigatePatientAdd() {
     Navigator.push(
       context,
@@ -53,7 +62,7 @@ class _PatientsListViewState extends State<PatientsListView> {
   Widget _buildPatientItem(Patient patient) => Card(
         color: Colors.blue.shade500,
         child: ListTile(
-          onTap:(){},
+          onTap: _handleNavigatePatientView(patient),
           leading: Icon(Icons.person),
           title: Text(
             patient.fullName,
