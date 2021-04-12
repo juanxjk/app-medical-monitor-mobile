@@ -5,7 +5,7 @@ enum DeviceStatus { none, active, maintenance, inactive }
 class Device {
   String? id;
   String title;
-  String? description;
+  String description;
   DeviceStatus status;
   bool canMeasureHeartRate;
   bool canMeasureO2Pulse;
@@ -18,7 +18,7 @@ class Device {
   Device(
       {this.id,
       required this.title,
-      this.description,
+      this.description = "",
       this.status = DeviceStatus.none,
       this.canMeasureO2Pulse = false,
       this.canMeasureHeartRate = false,
