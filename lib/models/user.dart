@@ -5,6 +5,7 @@ enum UserRole { admin, doctor, nurse, patient, guest }
 class User {
   String? id;
   String username;
+  String? password;
   String fullName;
   String email;
   bool isVerified;
@@ -17,6 +18,7 @@ class User {
     required this.fullName,
     required this.username,
     required this.email,
+    this.password,
     this.isBanned = false,
     this.session,
     this.isVerified = false,
