@@ -1,6 +1,7 @@
 import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
+import 'package:app_medical_monitor/views/patient_add_view.dart';
 import 'package:flutter/material.dart';
 
 class PatientsListView extends StatefulWidget {
@@ -41,6 +42,12 @@ class _PatientsListViewState extends State<PatientsListView> {
   }
 
   void _handleNavigatePatientAdd() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PatientAddView(widget._loggedUser),
+      ),
+    ).then((value) => _resetState());
   }
 
   Widget _buildPatientItem(Patient patient) => Card(
