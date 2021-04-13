@@ -24,4 +24,47 @@ class Device {
       this.canMeasureHeartRate = false,
       this.canMeasureTemp = false,
       this.patient});
+
+  Device.fromJson(Map<String, dynamic> json)
+      : this.id = json['id'],
+        this.title = json['title'],
+        this.description = json['description'] ?? "",
+        this.status = getStatusFromString(json['status']),
+        this.canMeasureO2Pulse = json['canMeasureO2Pulse'] ?? false,
+        this.canMeasureHeartRate = json['canMeasureHeartRate'] ?? false,
+        this.canMeasureTemp = json['canMeasureTemp'],
+        this.patient = json['patient'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "title": this.title,
+      "description": this.description,
+      "status": getStatusString(this.status),
+      "canMeasureHeartRate": this.canMeasureHeartRate,
+      "canMeasureO2Pulse": this.canMeasureO2Pulse,
+      "canMeasureTemp": this.canMeasureTemp,
+      "patient": this.patient
+    };
+  }
+
+  static String getStatusString(DeviceStatus status) {
+    switch (status) {
+      case DeviceStatus.none:
+        return "none";
+      case DeviceStatus.active:
+        return "active";
+      case DeviceStatus.maintenance:
+        return "maintenance";
+      case DeviceStatus.inactive:
+        return "inactive";
+      default:
+        throw Exception("Error");
+    }
+  }
+
+  static DeviceStatus getStatusFromString(String status) {
+    return DeviceStatus.values
+        .firstWhere((e) => e.toString() == 'DeviceStatus.' + status);
+  }
 }
