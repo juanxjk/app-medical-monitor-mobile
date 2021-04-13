@@ -1,6 +1,7 @@
 import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
+import 'package:app_medical_monitor/views/device_add_view.dart';
 import 'package:app_medical_monitor/views/device_view.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,12 @@ class _DevicesListViewState extends State<DevicesListView> {
           ).then((value) => _resetState());
 
   void _handleNavigateDeviceAdd() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceAddView(widget._loggedUser),
+      ),
+    ).then((value) => _resetState());
   }
 
   Widget _buildDeviceItem(Device device) => Card(

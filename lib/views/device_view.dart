@@ -1,6 +1,7 @@
 import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
+import 'package:app_medical_monitor/views/device_add_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,17 @@ class _DeviceViewState extends State<DeviceView> {
   _buildEditBtn(BuildContext context) => IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DeviceAddView(
+                      widget._loggedUser,
+                      editDevice: _device,
+                    ))).then((value) {
+          setState(() {
+            _device = value ?? _device;
+          });
+        });
       });
 
   _buildDeleteBtn(BuildContext context) {
