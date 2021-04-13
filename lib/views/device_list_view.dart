@@ -1,6 +1,7 @@
 import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
+import 'package:app_medical_monitor/views/device_view.dart';
 import 'package:flutter/material.dart';
 
 class DevicesListView extends StatefulWidget {
@@ -40,13 +41,21 @@ class _DevicesListViewState extends State<DevicesListView> {
     }
   }
 
+  void Function() _handleNavigateDeviceView(Device device) =>
+      () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeviceView(widget._loggedUser, device),
+            ),
+          ).then((value) => _resetState());
+
   void _handleNavigateDeviceAdd() {
   }
 
   Widget _buildDeviceItem(Device device) => Card(
         color: Colors.blue.shade500,
         child: ListTile(
-          onTap: () {},
+          onTap: _handleNavigateDeviceView(device),
           leading: Icon(Icons.wifi_tethering),
           title: Text(
             device.title,
