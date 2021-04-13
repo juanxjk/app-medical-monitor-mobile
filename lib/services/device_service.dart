@@ -85,8 +85,6 @@ class DeviceService implements Service<Device> {
     final response = await http
         .delete(url, headers: headerWithAuth(_token))
         .timeout(Duration(milliseconds: 1000));
-    if (response.statusCode != 204) throw Exception("Remove failed");
-
-    throw Exception("Unexpected error on DeviceService: remove");
+    if (response.statusCode != 204) throw Exception("Remove method has failed");
   }
 }

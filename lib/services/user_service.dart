@@ -85,8 +85,6 @@ class UserService implements Service<User> {
     final response = await http
         .delete(url, headers: headerWithAuth(_token))
         .timeout(Duration(milliseconds: 1000));
-    if (response.statusCode != 204) throw Exception("Remove failed");
-
-    throw Exception("Unexpected error on UserService: remove");
+    if (response.statusCode != 204) throw Exception("Remove method has failed");
   }
 }

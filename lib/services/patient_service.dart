@@ -85,8 +85,6 @@ class PatientService implements Service<Patient> {
     final response = await http
         .delete(url, headers: headerWithAuth(_token))
         .timeout(Duration(milliseconds: 1000));
-    if (response.statusCode != 204) throw Exception("Remove failed");
-
-    throw Exception("Unexpected error on PatientService: remove");
+    if (response.statusCode != 204) throw Exception("Remove method has failed");
   }
 }
