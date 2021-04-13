@@ -1,4 +1,5 @@
 import 'package:app_medical_monitor/models/user.dart';
+import 'package:app_medical_monitor/views/device_list_view.dart';
 import 'package:app_medical_monitor/views/patient_list_view.dart';
 import 'package:app_medical_monitor/views/user_list_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
@@ -30,6 +31,10 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void _handleNavigateDeviceListView() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DevicesListView(widget._loggedUser)));
   }
 
   void _handleNavigateSettingsView() {
