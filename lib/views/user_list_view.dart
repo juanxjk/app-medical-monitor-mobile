@@ -1,5 +1,6 @@
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/user_service.dart';
+import 'package:app_medical_monitor/views/user_add_view.dart';
 import 'package:app_medical_monitor/views/user_view.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,12 @@ class _UsersListViewState extends State<UsersListView> {
       ).then((value) => _resetState());
 
   void _handleNavigateUserAdd() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserAddView(widget._loggedUser),
+      ),
+    ).then((value) => _resetState());
   }
 
   Widget _buildUserItem(User user) => Card(

@@ -1,5 +1,6 @@
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/user_service.dart';
+import 'package:app_medical_monitor/views/user_add_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,17 @@ class _UserViewState extends State<UserView> {
   _buildEditBtn(BuildContext context) => IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => UserAddView(
+                      widget._loggedUser,
+                      editUser: _user,
+                    ))).then((value) {
+          setState(() {
+            _user = value ?? _user;
+          });
+        });
       });
 
   _buildDeleteBtn(BuildContext context) {
