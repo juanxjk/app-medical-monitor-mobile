@@ -1,3 +1,4 @@
+import 'package:app_medical_monitor/components/search_form.dart';
 import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
@@ -22,12 +23,39 @@ class _PatientsListViewState extends State<PatientsListView> {
   List<Patient> _patients = [];
   final int _nextPageThreshold = 1;
 
+  bool _isSearching = false;
+  String _searchText = "";
+
+  void _handleSearch() {
+    if (_isSearching) _resetState();
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _handleAbortSearch() {
+    setState(() {
+      _searchText = "";
+      _isSearching = false;
+      _resetState();
+    });
+  }
+
+  void _handleOnChange(String value) {
+    setState(() {
+      _searchText = value;
+    });
+  }
+
   Future<void> _fetchListPatients() async {
     try {
       final String token = widget._loggedUser.session!.token;
 
       final List<Patient> fetchPatients = await PatientService(token: token)
-          .findAll(page: _pageNumber, size: _defaultPatientsPerPageCount);
+          .findAll(
+              page: _pageNumber,
+              size: _defaultPatientsPerPageCount,
+              name: _searchText);
       setState(() {
         _hasMore = fetchPatients.length == _defaultPatientsPerPageCount;
         _isLoading = false;
@@ -147,9 +175,17 @@ class _PatientsListViewState extends State<PatientsListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "Pacientes ${_hasMore ? "(${_patients.length}...)" : "(${_patients.length})"}"),
+        title: _isSearching
+            ? SearchForm(
+                searchTitle: "nome",
+                onAbortSearch: _handleAbortSearch,
+                onSearch: _handleSearch,
+                onChanged: _handleOnChange,
+              )
+            : Text(
+                "Pacientes ${_hasMore ? "(${_patients.length}...)" : "(${_patients.length})"}"),
         actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: _handleSearch)
         ],
       ),
       floatingActionButton: FloatingActionButton(

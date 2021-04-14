@@ -10,8 +10,9 @@ class DeviceService implements Service<Device> {
 
   DeviceService({required String token}) : this._token = token;
 
-  Future<List<Device>> findAll({int page = 1, int size = 10}) async {
-    final String path = "/devices?page=$page&size=$size";
+  Future<List<Device>> findAll(
+      {int page = 1, int size = 10, String name = ""}) async {
+    final String path = "/devices?page=$page&size=$size&name=$name";
     final url = baseUrl.resolve(path);
     final response = await http
         .get(url, headers: headerWithAuth(_token))

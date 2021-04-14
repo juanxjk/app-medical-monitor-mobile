@@ -10,8 +10,9 @@ class PatientService implements Service<Patient> {
 
   PatientService({required String token}) : this._token = token;
 
-  Future<List<Patient>> findAll({int page = 1, int size = 10}) async {
-    final String path = "/patients?page=$page&size=$size";
+  Future<List<Patient>> findAll(
+      {int page = 1, int size = 10, String name = ""}) async {
+    final String path = "/patients?page=$page&size=$size&name=$name";
     final url = baseUrl.resolve(path);
     final response = await http
         .get(url, headers: headerWithAuth(_token))

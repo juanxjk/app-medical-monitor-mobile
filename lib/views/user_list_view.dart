@@ -1,3 +1,4 @@
+import 'package:app_medical_monitor/components/search_form.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/user_service.dart';
 import 'package:app_medical_monitor/views/user_add_view.dart';
@@ -20,12 +21,38 @@ class _UsersListViewState extends State<UsersListView> {
   List<User> _users = [];
   final int _nextPageThreshold = 1;
 
+  bool _isSearching = false;
+  String _searchText = "";
+
+  void _handleSearch() {
+    if (_isSearching) _resetState();
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _handleAbortSearch() {
+    setState(() {
+      _searchText = "";
+      _isSearching = false;
+      _resetState();
+    });
+  }
+
+  void _handleOnChange(String value) {
+    setState(() {
+      _searchText = value;
+    });
+  }
+
   Future<void> _fetchListUsers() async {
     try {
       final String token = widget._loggedUser.session!.token;
 
-      final List<User> fetchUsers = await UserService(token: token)
-          .findAll(page: _pageNumber, size: _defaultUsersPerPageCount);
+      final List<User> fetchUsers = await UserService(token: token).findAll(
+          page: _pageNumber,
+          size: _defaultUsersPerPageCount,
+          name: _searchText);
       setState(() {
         _hasMore = fetchUsers.length == _defaultUsersPerPageCount;
         _isLoading = false;
@@ -144,9 +171,18 @@ class _UsersListViewState extends State<UsersListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "Usuários ${_hasMore ? "(${_users.length}...)" : "(${_users.length})"}"),
-        actions: [],
+        title: _isSearching
+            ? SearchForm(
+                searchTitle: "nome",
+                onAbortSearch: _handleAbortSearch,
+                onSearch: _handleSearch,
+                onChanged: _handleOnChange,
+              )
+            : Text(
+                "Usuários ${_hasMore ? "(${_users.length}...)" : "(${_users.length})"}"),
+        actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: _handleSearch)
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _handleNavigateUserAdd,

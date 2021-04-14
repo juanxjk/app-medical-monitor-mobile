@@ -10,8 +10,9 @@ class UserService implements Service<User> {
 
   UserService({required String token}) : this._token = token;
 
-  Future<List<User>> findAll({int page = 1, int size = 10}) async {
-    final String path = "/users?page=$page&size=$size";
+  Future<List<User>> findAll(
+      {int page = 1, int size = 10, String name = ""}) async {
+    final String path = "/users?page=$page&size=$size&name=$name";
     final url = baseUrl.resolve(path);
     final response = await http
         .get(url, headers: headerWithAuth(_token))

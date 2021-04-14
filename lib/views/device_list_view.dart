@@ -1,3 +1,4 @@
+import 'package:app_medical_monitor/components/search_form.dart';
 import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
@@ -22,12 +23,39 @@ class _DevicesListViewState extends State<DevicesListView> {
   List<Device> _devices = [];
   final int _nextPageThreshold = 1;
 
+  bool _isSearching = false;
+  String _searchText = "";
+
+  void _handleSearch() {
+    if (_isSearching) _resetState();
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _handleAbortSearch() {
+    setState(() {
+      _searchText = "";
+      _isSearching = false;
+      _resetState();
+    });
+  }
+
+  void _handleOnChange(String value) {
+    setState(() {
+      _searchText = value;
+    });
+  }
+
   Future<void> _fetchListDevices() async {
     try {
       final String token = widget._loggedUser.session!.token;
 
       final List<Device> fetchDevices = await DeviceService(token: token)
-          .findAll(page: _pageNumber, size: _defaultDevicesPerPageCount);
+          .findAll(
+              page: _pageNumber,
+              size: _defaultDevicesPerPageCount,
+              name: _searchText);
       setState(() {
         _hasMore = fetchDevices.length == _defaultDevicesPerPageCount;
         _isLoading = false;
@@ -147,9 +175,18 @@ class _DevicesListViewState extends State<DevicesListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "Dispositivos ${_hasMore ? "(${_devices.length}...)" : "(${_devices.length})"}"),
-        actions: [],
+        title: _isSearching
+            ? SearchForm(
+                searchTitle: "nome",
+                onAbortSearch: _handleAbortSearch,
+                onSearch: _handleSearch,
+                onChanged: _handleOnChange,
+              )
+            : Text(
+                "Dispositivos ${_hasMore ? "(${_devices.length}...)" : "(${_devices.length})"}"),
+        actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: _handleSearch)
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _handleNavigateDeviceAdd,
