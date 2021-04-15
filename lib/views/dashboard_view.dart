@@ -1,3 +1,4 @@
+import 'package:app_medical_monitor/components/button_card.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/views/device_list_view.dart';
 import 'package:app_medical_monitor/views/patient_list_view.dart';
@@ -91,33 +92,18 @@ class _DashboardViewState extends State<DashboardView> {
               crossAxisSpacing: 4.0,
               mainAxisSpacing: 8.0,
               children: [
-                GestureDetector(
-                  onTap: _handleNavigateUserListView,
-                  child: Card(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.people), Text("Usuários")],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _handleNavigateDeviceListView,
-                  child: Card(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.devices), Text("Dispositivos")],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _handleNavigatePatientListView,
-                  child: Card(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.people), Text("Pacientes")],
-                    ),
-                  ),
-                ),
+                ButtonCard(
+                    icon: Icons.people,
+                    label: "Usuários",
+                    onTap: _handleNavigateUserListView),
+                ButtonCard(
+                    icon: Icons.devices,
+                    label: "Dispositivos",
+                    onTap: _handleNavigateDeviceListView),
+                ButtonCard(
+                    icon: Icons.people,
+                    label: "Pacientes",
+                    onTap: _handleNavigatePatientListView),
               ],
             ),
           ],
