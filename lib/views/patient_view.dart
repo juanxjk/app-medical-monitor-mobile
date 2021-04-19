@@ -177,40 +177,6 @@ class _PatientViewState extends State<PatientView> {
                   itemList: _patient.comorbidities)
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(50),
-                color: Colors.blue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                        Text("Batimento cardíaco: "),
-                        Text("70 bpm")
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.brightness_1,
-                          color: Colors.green,
-                        ),
-                        Text("Saturação de oxigênio: "),
-                        Text("95%")
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
         ],
       ),
     );
