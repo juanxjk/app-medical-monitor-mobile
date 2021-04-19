@@ -39,6 +39,8 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void _handleNavigateSettingsView() {
+    showErrorSnackBar(context,
+        message: "Indisponível, está em desenvolvimento.");
   }
 
   void _handleLogout() {
