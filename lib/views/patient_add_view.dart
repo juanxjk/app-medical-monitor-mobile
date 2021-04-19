@@ -215,6 +215,22 @@ class _PatientAddViewState extends State<PatientAddView> {
     ],
   );
 
+  late final _prognosisTextField = Row(
+    children: [
+      Flexible(
+        child: TextFormField(
+          initialValue: _patient.prognosis,
+          onChanged: (newValue) {
+            setState(() {
+              _patient.prognosis = newValue;
+            });
+          },
+          decoration: _getDecoration(labelText: "Prognóstico"),
+        ),
+      ),
+    ],
+  );
+
   _buildMenuAdd({required String title, required List<String> list}) {
     _buildList({required List<String> list}) {
       return list.asMap().entries.map((entry) {
@@ -302,6 +318,7 @@ class _PatientAddViewState extends State<PatientAddView> {
                   _statusDropdownField,
                   _birthDateField,
                   _bedTextField,
+                  _prognosisTextField,
                   _buildMenuAdd(
                       title: "Adicionar doença existente",
                       list: _patient.illnesses),
