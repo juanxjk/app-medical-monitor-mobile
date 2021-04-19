@@ -204,6 +204,7 @@ class _PatientAddViewState extends State<PatientAddView> {
     children: [
       Flexible(
         child: TextFormField(
+          initialValue: _patient.bed,
           onChanged: (newValue) {
             setState(() {
               _patient.bed = newValue;
