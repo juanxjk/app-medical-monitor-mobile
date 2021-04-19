@@ -232,6 +232,23 @@ class _PatientAddViewState extends State<PatientAddView> {
     ],
   );
 
+  late final _noteTextField = Row(
+    children: [
+      Flexible(
+        child: TextFormField(
+          initialValue: _patient.note,
+          maxLines: null,
+          onChanged: (newValue) {
+            setState(() {
+              _patient.note = newValue;
+            });
+          },
+          decoration: _getDecoration(labelText: "Observações"),
+        ),
+      ),
+    ],
+  );
+
   _buildMenuAdd({required String title, required List<String> list}) {
     _buildList({required List<String> list}) {
       return list.asMap().entries.map((entry) {
@@ -320,6 +337,7 @@ class _PatientAddViewState extends State<PatientAddView> {
                   _birthDateField,
                   _bedTextField,
                   _prognosisTextField,
+                  _noteTextField,
                   _buildMenuAdd(
                       title: "Adicionar doença existente",
                       list: _patient.illnesses),

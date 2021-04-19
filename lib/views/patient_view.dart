@@ -152,6 +152,10 @@ class _PatientViewState extends State<PatientView> {
             title: Text("Prognóstico"),
             subtitle: Text(_patient.prognosis ?? "Sem prognóstico"),
           ),
+          ListTile(
+            title: Text("Observações"),
+            subtitle: Text(_patient.note ?? "Sem observações"),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

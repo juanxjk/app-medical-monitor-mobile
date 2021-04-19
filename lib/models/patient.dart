@@ -17,6 +17,7 @@ class Patient {
   DateTime birthDate;
   PatientStatus status;
   String? bed;
+  String? note;
   List<String> illnesses;
   List<String> comorbidities;
   String? prognosis;
@@ -30,6 +31,7 @@ class Patient {
     required this.birthDate,
     this.status = PatientStatus.none,
     this.bed,
+    this.note,
     this.devices = const [],
     this.illnesses = const [],
     this.comorbidities = const [],
@@ -44,6 +46,7 @@ class Patient {
         this.birthDate = DateTime.parse(json['birthDate']),
         this.status = getStatusFromString(json['status']),
         this.bed = json['bed'],
+        this.note = json['note'],
         this.devices = json['devices'] ?? [],
         this.illnesses = (json['illnesses'] as List<dynamic>)
             .map((e) => e.toString())
@@ -62,6 +65,7 @@ class Patient {
       'birthDate': this.birthDate.toIso8601String(),
       'status': getStatusString(this.status),
       'bed': this.bed,
+      'note': this.note,
       'devices': this.devices,
       'illnesses': this.illnesses,
       'comorbidities': this.comorbidities,
