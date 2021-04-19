@@ -1,4 +1,4 @@
-# App Medical Monitor v0.0.1
+# App Medical Monitor v0.1.0
 
 An app for medical monitoring.
 
