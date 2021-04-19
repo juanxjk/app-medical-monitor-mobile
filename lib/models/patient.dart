@@ -16,11 +16,11 @@ class Patient {
   GenderType gender;
   DateTime birthDate;
   PatientStatus status;
-  String? bed;
-  String? note;
+  String bed;
+  String note;
   List<String> illnesses;
   List<String> comorbidities;
-  String? prognosis;
+  String prognosis;
   List<Device> devices;
 
   Patient({
@@ -30,12 +30,12 @@ class Patient {
     required this.gender,
     required this.birthDate,
     this.status = PatientStatus.none,
-    this.bed,
-    this.note,
+    this.bed = "",
+    this.note = "",
     this.devices = const [],
     this.illnesses = const [],
     this.comorbidities = const [],
-    this.prognosis,
+    this.prognosis = "",
   });
 
   Patient.fromJson(Map<String, dynamic> json)
@@ -45,8 +45,8 @@ class Patient {
         this.gender = getGenderFromString(json['gender']),
         this.birthDate = DateTime.parse(json['birthDate']),
         this.status = getStatusFromString(json['status']),
-        this.bed = json['bed'],
-        this.note = json['note'],
+        this.bed = json['bed'] ?? "",
+        this.note = json['note'] ?? "",
         this.devices = json['devices'] ?? [],
         this.illnesses = (json['illnesses'] as List<dynamic>)
             .map((e) => e.toString())
@@ -54,7 +54,7 @@ class Patient {
         this.comorbidities = (json['comorbidities'] as List<dynamic>)
             .map((e) => e.toString())
             .toList(),
-        this.prognosis = json['prognosis'];
+        this.prognosis = json['prognosis'] ?? "";
 
   Map<String, dynamic> toJson() {
     return {

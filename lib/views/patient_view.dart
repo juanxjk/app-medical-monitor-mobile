@@ -146,15 +146,19 @@ class _PatientViewState extends State<PatientView> {
           ),
           ListTile(
             title: Text("Leito"),
-            subtitle: Text(_patient.bed ?? "Nenhum leito"),
+            subtitle:
+                Text(_patient.bed.isEmpty ? "Nenhum leito" : _patient.bed),
           ),
           ListTile(
             title: Text("Prognóstico"),
-            subtitle: Text(_patient.prognosis ?? "Sem prognóstico"),
+            subtitle: Text(_patient.prognosis.isEmpty
+                ? "Sem prognóstico"
+                : _patient.prognosis),
           ),
           ListTile(
             title: Text("Observações"),
-            subtitle: Text(_patient.note ?? "Sem observações"),
+            subtitle:
+                Text(_patient.note.isEmpty ? "Sem observações" : _patient.note),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
