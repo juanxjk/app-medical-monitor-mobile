@@ -134,7 +134,7 @@ class _DeviceViewState extends State<DeviceView> {
           ),
           ListTile(
             title: Text("Status"),
-            subtitle: Text(_device.status.toString()),
+            subtitle: Text(_device.status.displayName),
           ),
           ListTile(
             leading: _device.canMeasureHeartRate

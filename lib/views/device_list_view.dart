@@ -97,7 +97,7 @@ class _DevicesListViewState extends State<DevicesListView> {
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Text(
-            "Status: ${device.status}",
+            "Status: ${device.status.displayName}",
             style: TextStyle(color: Colors.white60),
           ),
           trailing: Icon(
