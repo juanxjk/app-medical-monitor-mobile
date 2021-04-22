@@ -1,6 +1,28 @@
 import 'package:app_medical_monitor/models/patient.dart';
+import 'package:flutter/foundation.dart';
 
 enum DeviceStatus { none, active, maintenance, inactive }
+
+extension DeviceStatusExtention on DeviceStatus {
+  static DeviceStatus fromString(String status) {
+    return DeviceStatus.values
+        .firstWhere((value) => describeEnum(value) == status);
+  }
+
+  String get name => describeEnum(this);
+  String get displayName {
+    switch (this) {
+      case DeviceStatus.none:
+        return "nenhum";
+      case DeviceStatus.active:
+        return "funcionando";
+      case DeviceStatus.maintenance:
+        return "em manutenção";
+      case DeviceStatus.inactive:
+        return "inativado";
+    }
+  }
+}
 
 class Device {
   String? id;
@@ -29,7 +51,7 @@ class Device {
       : this.id = json['id'],
         this.title = json['title'],
         this.description = json['description'] ?? "",
-        this.status = getStatusFromString(json['status']),
+        this.status = DeviceStatusExtention.fromString(json['status']),
         this.canMeasureO2Pulse = json['canMeasureO2Pulse'] ?? false,
         this.canMeasureHeartRate = json['canMeasureHeartRate'] ?? false,
         this.canMeasureTemp = json['canMeasureTemp'],
@@ -40,31 +62,11 @@ class Device {
       "id": this.id,
       "title": this.title,
       "description": this.description,
-      "status": getStatusString(this.status),
+      "status": this.status.name,
       "canMeasureHeartRate": this.canMeasureHeartRate,
       "canMeasureO2Pulse": this.canMeasureO2Pulse,
       "canMeasureTemp": this.canMeasureTemp,
       "patient": this.patient
     };
-  }
-
-  static String getStatusString(DeviceStatus status) {
-    switch (status) {
-      case DeviceStatus.none:
-        return "none";
-      case DeviceStatus.active:
-        return "active";
-      case DeviceStatus.maintenance:
-        return "maintenance";
-      case DeviceStatus.inactive:
-        return "inactive";
-      default:
-        throw Exception("Error");
-    }
-  }
-
-  static DeviceStatus getStatusFromString(String status) {
-    return DeviceStatus.values
-        .firstWhere((e) => e.toString() == 'DeviceStatus.' + status);
   }
 }
