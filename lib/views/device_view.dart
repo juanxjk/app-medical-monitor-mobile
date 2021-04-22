@@ -2,6 +2,7 @@ import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
 import 'package:app_medical_monitor/views/device_add_view.dart';
+import 'package:app_medical_monitor/views/device_monitor_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,20 @@ class _DeviceViewState extends State<DeviceView> {
             _device = value ?? _device;
           });
         });
+      });
+
+  _buildLiveBtn(BuildContext context) => IconButton(
+      icon: Icon(Icons.wifi_tethering),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DeviceMonitorView(
+              widget._loggedUser,
+              device: _device,
+            ),
+          ),
+        );
       });
 
   _buildDeleteBtn(BuildContext context) {
@@ -96,6 +111,7 @@ class _DeviceViewState extends State<DeviceView> {
       appBar: AppBar(
         title: Text("Dispositivo"),
         actions: [
+          _buildLiveBtn(context),
           _buildEditBtn(context),
           _buildDeleteBtn(context),
         ],
