@@ -93,7 +93,7 @@ class _UsersListViewState extends State<UsersListView> {
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Text(
-            "Type: ${user.role}",
+            "Função: ${user.role.displayName}",
             style: TextStyle(color: Colors.white60),
           ),
           trailing: Icon(

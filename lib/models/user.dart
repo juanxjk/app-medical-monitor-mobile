@@ -1,6 +1,29 @@
 import 'package:app_medical_monitor/models/session.dart';
+import 'package:flutter/foundation.dart';
 
 enum UserRole { admin, doctor, nurse, patient, guest }
+
+extension UserRoleExtention on UserRole {
+  static UserRole fromString(String status) {
+    return UserRole.values.firstWhere((value) => describeEnum(value) == status);
+  }
+
+  String get name => describeEnum(this);
+  String get displayName {
+    switch (this) {
+      case UserRole.admin:
+        return "administrador";
+      case UserRole.doctor:
+        return "médico";
+      case UserRole.nurse:
+        return "enfermeiro";
+      case UserRole.patient:
+        return "paciente";
+      case UserRole.guest:
+        return "convidado";
+    }
+  }
+}
 
 class User {
   String? id;
@@ -32,7 +55,7 @@ class User {
         this.email = json['email'],
         this.isBanned = json['isBanned'],
         this.isVerified = json['isVerified'],
-        this.role = getRoleFromString(json['role']);
+        this.role = UserRoleExtention.fromString(json['role']);
 
   Map<String, dynamic> toJson() {
     final json = {
@@ -42,33 +65,11 @@ class User {
       'email': this.email,
       'isVerified': this.isVerified,
       'isBanned': this.isBanned,
-      'role': getRoleString(this.role),
+      'role': this.role.name,
     };
 
     if (this.password?.isNotEmpty ?? false) json['password'] = this.password;
 
     return json;
-  }
-
-  static UserRole getRoleFromString(String role) {
-    return UserRole.values
-        .firstWhere((e) => e.toString() == 'UserRole.' + role);
-  }
-
-  static String getRoleString(UserRole role) {
-    switch (role) {
-      case UserRole.admin:
-        return 'admin';
-      case UserRole.doctor:
-        return 'doctor';
-      case UserRole.nurse:
-        return 'nurse';
-      case UserRole.patient:
-        return 'patient';
-      case UserRole.guest:
-        return 'guest';
-      default:
-        throw Exception("Invalid UserRole");
-    }
   }
 }

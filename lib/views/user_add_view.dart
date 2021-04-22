@@ -165,37 +165,20 @@ class _UserAddViewState extends State<UserAddView> {
         children: [
           Flexible(
             child: DropdownButtonFormField<UserRole>(
-              decoration: _getDecoration(labelText: "Função"),
-              value: _user.role,
-              onChanged: (newValue) {
-                final newRole = newValue ?? _user.role;
-                setState(() {
-                  _user.role = newRole;
-                });
-              },
-              items: [
-                DropdownMenuItem(
-                  value: UserRole.guest,
-                  child: Text('Convidado'),
-                ),
-                DropdownMenuItem(
-                  value: UserRole.patient,
-                  child: Text('Paciente'),
-                ),
-                DropdownMenuItem(
-                  value: UserRole.nurse,
-                  child: Text('Enfermeiro'),
-                ),
-                DropdownMenuItem(
-                  value: UserRole.doctor,
-                  child: Text('Médico'),
-                ),
-                DropdownMenuItem(
-                  value: UserRole.admin,
-                  child: Text('Administrador'),
-                ),
-              ],
-            ),
+                decoration: _getDecoration(labelText: "Função"),
+                value: _user.role,
+                onChanged: (newValue) {
+                  final newRole = newValue ?? _user.role;
+                  setState(() {
+                    _user.role = newRole;
+                  });
+                },
+                items: UserRole.values
+                    .map((value) => DropdownMenuItem(
+                          value: value,
+                          child: Text(value.displayName),
+                        ))
+                    .toList()),
           ),
         ],
       );
