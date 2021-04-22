@@ -1,3 +1,4 @@
+import 'package:app_medical_monitor/components/menu_add.dart';
 import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
@@ -249,65 +250,6 @@ class _PatientAddViewState extends State<PatientAddView> {
     ],
   );
 
-  _buildMenuAdd({required String title, required List<String> list}) {
-    _buildList({required List<String> list}) {
-      return list.asMap().entries.map((entry) {
-        int index = entry.key;
-        String illness = entry.value;
-        return ListTile(
-          title: Text(illness),
-          leading: Icon(
-            Icons.circle,
-            size: 20,
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.delete),
-            color: Colors.red,
-            onPressed: () {
-              setState(() {
-                list.removeAt(index);
-              });
-            },
-          ),
-        );
-      }).toList();
-    }
-
-    final inputController = TextEditingController();
-
-    _handleAddItem() {
-      String newValue = inputController.value.text;
-      if (newValue.isNotEmpty)
-        setState(() {
-          list.add(newValue);
-          inputController.clear();
-        });
-    }
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Flexible(
-              child: TextFormField(
-                controller: inputController,
-                onFieldSubmitted: (value) {
-                  _handleAddItem();
-                },
-                decoration: _getDecoration(labelText: title),
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: _handleAddItem,
-            ),
-          ],
-        ),
-        ..._buildList(list: list)
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -338,10 +280,10 @@ class _PatientAddViewState extends State<PatientAddView> {
                   _bedTextField,
                   _prognosisTextField,
                   _noteTextField,
-                  _buildMenuAdd(
+                  MenuAdd(
                       title: "Adicionar doença existente",
                       list: _patient.illnesses),
-                  _buildMenuAdd(
+                  MenuAdd(
                       title: "Adicionar comorbidade existente",
                       list: _patient.comorbidities),
                 ],
