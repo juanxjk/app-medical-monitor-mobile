@@ -118,24 +118,14 @@ class _DeviceAddViewState extends State<DeviceAddView> {
                   _device.status = newStatus;
                 });
               },
-              items: [
-                DropdownMenuItem(
-                  value: DeviceStatus.none,
-                  child: Text('Nenhum'),
-                ),
-                DropdownMenuItem(
-                  value: DeviceStatus.active,
-                  child: Text('Em uso'),
-                ),
-                DropdownMenuItem(
-                  value: DeviceStatus.maintenance,
-                  child: Text('Em manutenção'),
-                ),
-                DropdownMenuItem(
-                  value: DeviceStatus.inactive,
-                  child: Text('Inativado'),
-                ),
-              ],
+              items: DeviceStatus.values
+                  .map(
+                    (value) => DropdownMenuItem<DeviceStatus>(
+                      value: value,
+                      child: Text(value.displayName),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],
