@@ -97,7 +97,7 @@ class _PatientsListViewState extends State<PatientsListView> {
             style: TextStyle(color: Colors.white),
           ),
           subtitle: Text(
-            "CPF: ${patient.cpf} - Status: ${patient.status}",
+            "CPF: ${patient.cpf} - Status: ${patient.status.displayName}",
             style: TextStyle(color: Colors.white60),
           ),
           trailing: Icon(

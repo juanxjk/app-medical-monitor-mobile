@@ -1,4 +1,5 @@
 import 'package:app_medical_monitor/models/device.dart';
+import 'package:flutter/foundation.dart';
 
 enum PatientStatus {
   none,
@@ -7,7 +8,45 @@ enum PatientStatus {
   discharged,
 }
 
+extension PatientStatusExtention on PatientStatus {
+  static PatientStatus fromString(String status) {
+    return PatientStatus.values
+        .firstWhere((value) => describeEnum(value) == status);
+  }
+
+  String get name => describeEnum(this);
+  String get displayName {
+    switch (this) {
+      case PatientStatus.none:
+        return "nenhum";
+      case PatientStatus.waiting:
+        return "em espera";
+      case PatientStatus.treatment:
+        return "em tratamento";
+      case PatientStatus.discharged:
+        return "com alta";
+    }
+  }
+}
+
 enum GenderType { masculine, feminine }
+
+extension GenderTypeExtention on GenderType {
+  static GenderType fromString(String status) {
+    return GenderType.values
+        .firstWhere((value) => describeEnum(value) == status);
+  }
+
+  String get name => describeEnum(this);
+  String get displayName {
+    switch (this) {
+      case GenderType.masculine:
+        return "masculino";
+      case GenderType.feminine:
+        return "feminino";
+    }
+  }
+}
 
 class Patient {
   String? id;
@@ -42,9 +81,9 @@ class Patient {
       : this.id = json['id'],
         this.fullName = json['fullName'],
         this.cpf = json['cpf'],
-        this.gender = getGenderFromString(json['gender']),
+        this.gender = GenderTypeExtention.fromString(json['gender']),
         this.birthDate = DateTime.parse(json['birthDate']),
-        this.status = getStatusFromString(json['status']),
+        this.status = PatientStatusExtention.fromString(json['status']),
         this.bed = json['bed'] ?? "",
         this.note = json['note'] ?? "",
         this.devices = json['devices'] ?? [],
@@ -61,9 +100,9 @@ class Patient {
       'id': this.id,
       'fullName': this.fullName,
       'cpf': this.cpf,
-      'gender': getGenderString(this.gender),
+      'gender': this.gender.name,
       'birthDate': this.birthDate.toIso8601String(),
-      'status': getStatusString(this.status),
+      'status': this.status.name,
       'bed': this.bed,
       'note': this.note,
       'devices': this.devices,
@@ -71,41 +110,5 @@ class Patient {
       'comorbidities': this.comorbidities,
       'prognosis': this.prognosis,
     };
-  }
-
-  static getGenderFromString(String gender) {
-    return GenderType.values
-        .firstWhere((e) => e.toString() == 'GenderType.' + gender);
-  }
-
-  static getStatusFromString(String status) {
-    return PatientStatus.values
-        .firstWhere((e) => e.toString() == 'PatientStatus.' + status);
-  }
-
-  static String getGenderString(GenderType gender) {
-    switch (gender) {
-      case GenderType.masculine:
-        return 'masculine';
-      case GenderType.feminine:
-        return "feminine";
-      default:
-        throw Exception("Invalid gender");
-    }
-  }
-
-  static String getStatusString(PatientStatus status) {
-    switch (status) {
-      case PatientStatus.none:
-        return 'none';
-      case PatientStatus.waiting:
-        return 'waiting';
-      case PatientStatus.treatment:
-        return 'treatment';
-      case PatientStatus.discharged:
-        return 'discharged';
-      default:
-        throw Exception("Invalid status");
-    }
   }
 }

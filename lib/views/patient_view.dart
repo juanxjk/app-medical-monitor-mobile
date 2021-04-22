@@ -134,7 +134,7 @@ class _PatientViewState extends State<PatientView> {
           ),
           ListTile(
             title: Text("Gênero"),
-            subtitle: Text(_patient.gender.toString()),
+            subtitle: Text(_patient.gender.displayName),
           ),
           ListTile(
             title: Text("Data de nascimento"),

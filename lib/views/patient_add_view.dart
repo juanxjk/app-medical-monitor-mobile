@@ -127,16 +127,14 @@ class _PatientAddViewState extends State<PatientAddView> {
               _patient.gender = newGender;
             });
           },
-          items: [
-            DropdownMenuItem(
-              value: GenderType.masculine,
-              child: Text('Masculino'),
-            ),
-            DropdownMenuItem(
-              value: GenderType.feminine,
-              child: Text('Feminino'),
-            ),
-          ],
+          items: GenderType.values
+              .map(
+                (value) => DropdownMenuItem<GenderType>(
+                  value: value,
+                  child: Text(value.displayName),
+                ),
+              )
+              .toList(),
         ),
       ),
     ],
@@ -154,24 +152,12 @@ class _PatientAddViewState extends State<PatientAddView> {
               _patient.status = newStatus;
             });
           },
-          items: [
-            DropdownMenuItem(
-              value: PatientStatus.none,
-              child: Text('Nenhum'),
-            ),
-            DropdownMenuItem(
-              value: PatientStatus.waiting,
-              child: Text('Em espera'),
-            ),
-            DropdownMenuItem(
-              value: PatientStatus.treatment,
-              child: Text('Em tratamento'),
-            ),
-            DropdownMenuItem(
-              value: PatientStatus.discharged,
-              child: Text('Com alta'),
-            ),
-          ],
+          items: PatientStatus.values
+              .map((value) => DropdownMenuItem<PatientStatus>(
+                    value: value,
+                    child: Text(value.displayName),
+                  ))
+              .toList(),
         ),
       ),
     ],
