@@ -201,7 +201,7 @@ class _DeviceMonitorViewState extends State<DeviceMonitorView> {
           ),
           lastUpdateDate != null
               ? Text(
-                  "Última atualização: ${lastUpdateDate ?? "..."}",
+                  "Última atualização: $lastUpdateDate",
                   style: _getMonitorValueDateStyle(),
                 )
               : SizedBox.shrink(),
