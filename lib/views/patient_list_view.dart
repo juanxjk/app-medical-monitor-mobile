@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 
 class PatientsListView extends StatefulWidget {
   final User _loggedUser;
-  PatientsListView(this._loggedUser, {Key? key}) : super(key: key);
+  final bool _isSelectionMode;
+  PatientsListView(this._loggedUser, {Key? key, bool isSelectionMode = false})
+      : this._isSelectionMode = isSelectionMode,
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PatientsListViewState();
@@ -25,6 +28,8 @@ class _PatientsListViewState extends State<PatientsListView> {
 
   bool _isSearching = false;
   String _searchText = "";
+
+  Patient? _selectedPatient;
 
   void _handleSearch() {
     if (_isSearching) _resetState();
@@ -87,11 +92,49 @@ class _PatientsListViewState extends State<PatientsListView> {
     ).then((value) => _resetState());
   }
 
+  _handleSelectPatient(Patient patient) => () {
+        setState(() {
+          this._selectedPatient = patient;
+        });
+      };
+
+  Widget? _buildFloatingButton() {
+    if (this._selectedPatient != null)
+      return FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop(this._selectedPatient);
+        },
+        backgroundColor: Colors.green,
+        child: Icon(
+          Icons.check,
+        ),
+      );
+
+    if (!widget._isSelectionMode)
+      FloatingActionButton(
+        onPressed: _handleNavigatePatientAdd,
+        backgroundColor: Colors.green,
+        child: Icon(
+          Icons.add,
+        ),
+      );
+  }
+
   Widget _buildPatientItem(Patient patient) => Card(
         color: Colors.blue.shade500,
         child: ListTile(
-          onTap: _handleNavigatePatientView(patient),
-          leading: Icon(Icons.person),
+          selected: patient == this._selectedPatient,
+          tileColor: Colors.blue,
+          selectedTileColor: Colors.blue.shade400,
+          onTap: widget._isSelectionMode
+              ? _handleSelectPatient(patient)
+              : _handleNavigatePatientView(patient),
+          leading: patient == this._selectedPatient
+              ? Icon(
+                  Icons.check,
+                  color: Colors.white,
+                )
+              : Icon(Icons.person),
           title: Text(
             patient.fullName,
             style: TextStyle(color: Colors.white),
@@ -100,10 +143,16 @@ class _PatientsListViewState extends State<PatientsListView> {
             "CPF: ${patient.cpf} - Status: ${patient.status.displayName}",
             style: TextStyle(color: Colors.white60),
           ),
-          trailing: Icon(
-            Icons.chevron_right,
-            color: Colors.white,
-          ),
+          trailing: !widget._isSelectionMode
+              ? Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                )
+              : TextButton(
+                  onPressed: _handleNavigatePatientView(patient),
+                  child: Text("Ver mais"),
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
+                ),
         ),
       );
 
@@ -188,13 +237,7 @@ class _PatientsListViewState extends State<PatientsListView> {
           IconButton(icon: Icon(Icons.search), onPressed: _handleSearch)
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _handleNavigatePatientAdd,
-        backgroundColor: Colors.green,
-        child: Icon(
-          Icons.add,
-        ),
-      ),
+      floatingActionButton: _buildFloatingButton(),
       body: RefreshIndicator(onRefresh: _resetState, child: _getBody()),
     );
   }
