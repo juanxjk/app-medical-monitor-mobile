@@ -1,6 +1,9 @@
 import 'package:app_medical_monitor/models/device.dart';
+import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
+import 'package:app_medical_monitor/views/patient_list_view.dart';
+import 'package:app_medical_monitor/views/patient_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -173,6 +176,182 @@ class _DeviceAddViewState extends State<DeviceAddView> {
         selectedTileColor: Colors.black54,
       );
 
+  _handleNavigateUserSelection() async {
+    final Patient? returnPatient = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PatientsListView(
+          widget._loggedUser,
+          isSelectionMode: true,
+        ),
+      ),
+    );
+
+    setState(() {
+      this._device.patient = returnPatient;
+    });
+  }
+
+  void _showAlertDialog(Patient patient) {
+    handlePatientLinkOff() {
+      setState(() {
+        this._device.patient = null;
+      });
+      Navigator.of(context).pop();
+    }
+
+    handlePatientViewBtn() async {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PatientView(
+            widget._loggedUser,
+            patient,
+          ),
+        ),
+      );
+    }
+
+    handleSwitchPatientBtn() async {
+      await _handleNavigateUserSelection();
+      Navigator.of(context).pop();
+    }
+
+    handleAbortModal() => Navigator.of(context).pop();
+
+    final patientLinkOffBtn = RawMaterialButton(
+      onPressed: handlePatientLinkOff,
+      elevation: 2.0,
+      fillColor: Colors.white,
+      child: Icon(
+        Icons.link_off,
+        size: 30.0,
+        color: Colors.red,
+      ),
+      padding: EdgeInsets.all(10.0),
+      shape: CircleBorder(),
+    );
+
+    Widget buildFieldInfo({required String title, required String body}) =>
+        ListTile(
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          subtitle: Text(
+            body,
+            style: TextStyle(fontSize: 16, color: Colors.black87),
+          ),
+        );
+
+    final dialog = AlertDialog(
+      title: Row(
+        children: [
+          Expanded(
+            child: FittedBox(
+              child: Text(
+                patient.fullName,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          patientLinkOffBtn
+        ],
+      ),
+      contentPadding: EdgeInsets.zero,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildFieldInfo(
+            title: 'Nome completo',
+            body: patient.fullName,
+          ),
+          buildFieldInfo(
+            title: 'CPF',
+            body: patient.cpf,
+          )
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: handlePatientViewBtn,
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.blue, primary: Colors.white),
+          child: Text('VER PERFIL'),
+        ),
+        TextButton(
+          onPressed: handleSwitchPatientBtn,
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.blue, primary: Colors.white),
+          child: Text("ALTERAR"),
+        ),
+        TextButton(
+          onPressed: handleAbortModal,
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.red, primary: Colors.white),
+          child: Text("CANCELAR"),
+        ),
+      ],
+    );
+
+    showDialog(context: context, builder: (context) => dialog);
+  }
+
+  Widget _buildPatientField() => ElevatedButton(
+        onPressed: () async {
+          if (this._device.patient != null) {
+            _showAlertDialog(this._device.patient!);
+          } else {
+            _handleNavigateUserSelection();
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.blue.shade400,
+                ),
+                child: Icon(
+                  this._device.patient != null
+                      ? Icons.person
+                      : Icons.person_add,
+                  color: Colors.white,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _device.patient?.fullName ?? "Associar um paciente",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      _device.patient?.cpf ?? "Aperte escolher um paciente",
+                      style: TextStyle(
+                        color: Colors.white38,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,6 +371,7 @@ class _DeviceAddViewState extends State<DeviceAddView> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildDeviceID(),
@@ -201,6 +381,7 @@ class _DeviceAddViewState extends State<DeviceAddView> {
                   _buildHeartRateCheckbox(),
                   _buildO2PulseCheckbox(),
                   _buildTempCheckbox(),
+                  _buildPatientField(),
                 ],
               ),
             ),
