@@ -55,7 +55,12 @@ class Device {
         this.canMeasureO2Pulse = json['canMeasureO2Pulse'] ?? false,
         this.canMeasureHeartRate = json['canMeasureHeartRate'] ?? false,
         this.canMeasureTemp = json['canMeasureTemp'],
-        this.patient = json['patient'];
+
+  static List<Device> fromJsonList(List<dynamic>? jsonList) {
+    final List<Device> list =
+        List.of(jsonList?.map((e) => Device.fromJson(e)).toList() ?? []);
+    return list;
+  }
 
   Map<String, dynamic> toJson() {
     return {

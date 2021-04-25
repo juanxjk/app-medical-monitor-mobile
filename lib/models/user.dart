@@ -57,6 +57,12 @@ class User {
         this.isVerified = json['isVerified'],
         this.role = UserRoleExtention.fromString(json['role']);
 
+  static List<User> fromJsonList(List<dynamic>? jsonList) {
+    final List<User> list =
+        List.of(jsonList?.map((e) => User.fromJson(e)).toList() ?? []);
+    return list;
+  }
+
   Map<String, dynamic> toJson() {
     final json = {
       'id': this.id,

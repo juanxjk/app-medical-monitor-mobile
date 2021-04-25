@@ -19,13 +19,8 @@ class UserService implements Service<User> {
         .timeout(Duration(milliseconds: 1000));
     if (response.statusCode == 200) {
       final List<dynamic> bodyJson = jsonDecode(response.body);
-      final List<User> users = [];
+      final List<User> users = User.fromJsonList(bodyJson);
 
-      bodyJson.forEach((element) {
-        final Map<String, dynamic> e = element;
-        final User user = User.fromJson(e);
-        users.add(user);
-      });
       return users;
     }
 

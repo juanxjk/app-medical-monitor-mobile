@@ -19,13 +19,8 @@ class PatientService implements Service<Patient> {
         .timeout(Duration(milliseconds: 1000));
     if (response.statusCode == 200) {
       final List<dynamic> bodyJson = jsonDecode(response.body);
-      final List<Patient> patients = [];
+      final List<Patient> patients = Patient.fromJsonList(bodyJson);
 
-      bodyJson.forEach((element) {
-        final Map<String, dynamic> e = element;
-        final Patient patient = Patient.fromJson(e);
-        patients.add(patient);
-      });
       return patients;
     }
 

@@ -95,6 +95,12 @@ class Patient {
             .toList(),
         this.prognosis = json['prognosis'] ?? "";
 
+  static List<Patient> fromJsonList(List<dynamic>? jsonList) {
+    final List<Patient> list =
+        List.of(jsonList?.map((e) => Patient.fromJson(e)).toList() ?? []);
+    return list;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': this.id,

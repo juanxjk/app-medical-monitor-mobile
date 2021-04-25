@@ -19,13 +19,8 @@ class DeviceService implements Service<Device> {
         .timeout(Duration(milliseconds: 1000));
     if (response.statusCode == 200) {
       final List<dynamic> bodyJson = jsonDecode(response.body);
-      final List<Device> devices = [];
+      final List<Device> devices = Device.fromJsonList(bodyJson);
 
-      bodyJson.forEach((element) {
-        final Map<String, dynamic> e = element;
-        final Device device = Device.fromJson(e);
-        devices.add(device);
-      });
       return devices;
     }
 
