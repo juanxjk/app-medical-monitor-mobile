@@ -55,6 +55,8 @@ class Device {
         this.canMeasureO2Pulse = json['canMeasureO2Pulse'] ?? false,
         this.canMeasureHeartRate = json['canMeasureHeartRate'] ?? false,
         this.canMeasureTemp = json['canMeasureTemp'],
+        this.patient =
+            json['patient'] != null ? Patient.fromJson(json['patient']) : null;
 
   static List<Device> fromJsonList(List<dynamic>? jsonList) {
     final List<Device> list =

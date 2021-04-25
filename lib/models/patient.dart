@@ -86,7 +86,7 @@ class Patient {
         this.status = PatientStatusExtention.fromString(json['status']),
         this.bed = json['bed'] ?? "",
         this.note = json['note'] ?? "",
-        this.devices = json['devices'] ?? [],
+        this.devices = Device.fromJsonList(json['devices']),
         this.illnesses = (json['illnesses'] as List<dynamic>)
             .map((e) => e.toString())
             .toList(),
