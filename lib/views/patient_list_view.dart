@@ -111,7 +111,7 @@ class _PatientsListViewState extends State<PatientsListView> {
       );
 
     if (!widget._isSelectionMode)
-      FloatingActionButton(
+      return FloatingActionButton(
         onPressed: _handleNavigatePatientAdd,
         backgroundColor: Colors.green,
         child: Icon(
