@@ -58,7 +58,7 @@ class _PatientAddViewState extends State<PatientAddView> {
     }
   }
 
-  Future<void> _handleEdit() async {
+  Future<void> _handleUpdate() async {
     try {
       if (_formKey.currentState?.validate() ?? false) {
         await PatientService(token: widget._loggedUser.session!.token)
@@ -252,7 +252,7 @@ class _PatientAddViewState extends State<PatientAddView> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: _isEditMode ? _handleEdit : _handleSave,
+        onPressed: _isEditMode ? _handleUpdate : _handleSave,
         child: Icon(Icons.save),
       ),
       body: ListView(
