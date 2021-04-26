@@ -2,6 +2,7 @@ import 'package:app_medical_monitor/components/menu_add.dart';
 import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
+import 'package:app_medical_monitor/views/utils/date_format.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -163,28 +164,34 @@ class _PatientAddViewState extends State<PatientAddView> {
         ],
       );
 
-  Widget _buildBirthDateField() => Row(
-        children: [
-          Text("Data de nascimento: "),
-          ElevatedButton.icon(
-            onPressed: () async {
-              final newDate = await showDatePicker(
-                context: context,
-                initialDate: _patient.birthDate,
-                firstDate: DateTime.now().subtract(Duration(days: 54750)),
-                lastDate: DateTime.now(),
-              );
-              final date = newDate ?? _patient.birthDate;
-              setState(() {
-                _patient.birthDate = date;
-              });
-            },
-            icon: Icon(Icons.calendar_today),
-            label: Text("${_patient.birthDate.day}/" +
-                "${_patient.birthDate.month}/" +
-                "${_patient.birthDate.year}"),
-          ),
-        ],
+  Widget _buildBirthDateField() => Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Data de nascimento: "),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    final newDate = await showDatePicker(
+                      context: context,
+                      initialDate: _patient.birthDate,
+                      firstDate: DateTime.now().subtract(Duration(days: 54750)),
+                      lastDate: DateTime.now(),
+                    );
+                    final date = newDate ?? _patient.birthDate;
+                    setState(() {
+                      _patient.birthDate = date;
+                    });
+                  },
+                  icon: Icon(Icons.calendar_today),
+                  label: Text(formatDateInFullPTBR(this._patient.birthDate)),
+                ),
+              ],
+            )
+          ],
+        ),
       );
 
   Widget _buildBedTextField() => Row(

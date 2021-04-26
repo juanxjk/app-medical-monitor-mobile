@@ -4,6 +4,7 @@ import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
 import 'package:app_medical_monitor/views/device_monitor_view.dart';
 import 'package:app_medical_monitor/views/patient_add_view.dart';
+import 'package:app_medical_monitor/views/utils/date_format.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -201,7 +202,7 @@ class _PatientViewState extends State<PatientView> {
           ),
           ListTile(
             title: Text("Data de nascimento"),
-            subtitle: Text(_patient.birthDate.toLocal().toString()),
+            subtitle: Text(formatDateInFullPTBR(this._patient.birthDate)),
           ),
           ListTile(
             title: Text("Status"),
