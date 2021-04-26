@@ -71,170 +71,170 @@ class _PatientAddViewState extends State<PatientAddView> {
     }
   }
 
-  late final _buildPatientID = ListTile(
-    title: Text("Identificação"),
-    subtitle: Text(_patient.id ?? "Sem identificação"),
-  );
+  Widget _buildPatientID() => ListTile(
+        title: Text("Identificação"),
+        subtitle: Text(_patient.id ?? "Sem identificação"),
+      );
 
-  late final _fullNameTextField = Row(
-    children: [
-      Flexible(
-        child: TextFormField(
-          initialValue: _patient.fullName,
-          decoration: _getDecoration(labelText: "Nome completo"),
-          onChanged: (newValue) {
-            setState(() {
-              _patient.fullName = newValue;
-            });
-          },
-          validator: (String? value) {
-            if (value?.isEmpty ?? true) return "Campo obrigatório";
-          },
-        ),
-      ),
-    ],
-  );
+  Widget _buildFullNameTextField() => Row(
+        children: [
+          Flexible(
+            child: TextFormField(
+              initialValue: _patient.fullName,
+              decoration: _getDecoration(labelText: "Nome completo"),
+              onChanged: (newValue) {
+                setState(() {
+                  _patient.fullName = newValue;
+                });
+              },
+              validator: (String? value) {
+                if (value?.isEmpty ?? true) return "Campo obrigatório";
+              },
+            ),
+          ),
+        ],
+      );
 
-  late final _cpfTextField = Row(
-    children: [
-      Flexible(
-        child: TextFormField(
-          initialValue: _patient.cpf,
-          decoration: _getDecoration(labelText: "CPF"),
-          onChanged: (newValue) {
-            setState(() {
-              _patient.cpf = newValue;
-            });
-          },
-          validator: (String? value) {
-            if (value?.isEmpty ?? true) return "Campo obrigatório";
-          },
-        ),
-      ),
-    ],
-  );
+  Widget _buildCPFTextField() => Row(
+        children: [
+          Flexible(
+            child: TextFormField(
+              initialValue: _patient.cpf,
+              decoration: _getDecoration(labelText: "CPF"),
+              onChanged: (newValue) {
+                setState(() {
+                  _patient.cpf = newValue;
+                });
+              },
+              validator: (String? value) {
+                if (value?.isEmpty ?? true) return "Campo obrigatório";
+              },
+            ),
+          ),
+        ],
+      );
 
-  late final _genderDropdownField = Row(
-    children: [
-      // TextField(),
-      Flexible(
-        child: DropdownButtonFormField<GenderType>(
-          decoration: _getDecoration(labelText: "Gênero"),
-          value: _patient.gender,
-          onChanged: (newValue) {
-            final newGender = newValue ?? _patient.gender;
-            setState(() {
-              _patient.gender = newGender;
-            });
-          },
-          items: GenderType.values
-              .map(
-                (value) => DropdownMenuItem<GenderType>(
-                  value: value,
-                  child: Text(value.displayName),
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    ],
-  );
+  Widget _buildGenderDropdownField() => Row(
+        children: [
+          // TextField(),
+          Flexible(
+            child: DropdownButtonFormField<GenderType>(
+              decoration: _getDecoration(labelText: "Gênero"),
+              value: _patient.gender,
+              onChanged: (newValue) {
+                final newGender = newValue ?? _patient.gender;
+                setState(() {
+                  _patient.gender = newGender;
+                });
+              },
+              items: GenderType.values
+                  .map(
+                    (value) => DropdownMenuItem<GenderType>(
+                      value: value,
+                      child: Text(value.displayName),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
+      );
 
-  late final _statusDropdownField = Row(
-    children: [
-      Flexible(
-        child: DropdownButtonFormField<PatientStatus>(
-          decoration: _getDecoration(labelText: "Status"),
-          value: _patient.status,
-          onChanged: (newValue) {
-            final newStatus = newValue ?? _patient.status;
-            setState(() {
-              _patient.status = newStatus;
-            });
-          },
-          items: PatientStatus.values
-              .map((value) => DropdownMenuItem<PatientStatus>(
-                    value: value,
-                    child: Text(value.displayName),
-                  ))
-              .toList(),
-        ),
-      ),
-    ],
-  );
+  Widget _buildStatusDropdownField() => Row(
+        children: [
+          Flexible(
+            child: DropdownButtonFormField<PatientStatus>(
+              decoration: _getDecoration(labelText: "Status"),
+              value: _patient.status,
+              onChanged: (newValue) {
+                final newStatus = newValue ?? _patient.status;
+                setState(() {
+                  _patient.status = newStatus;
+                });
+              },
+              items: PatientStatus.values
+                  .map((value) => DropdownMenuItem<PatientStatus>(
+                        value: value,
+                        child: Text(value.displayName),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ],
+      );
 
-  late final _birthDateField = Row(
-    children: [
-      Text("Data de nascimento: "),
-      ElevatedButton.icon(
-        onPressed: () async {
-          final newDate = await showDatePicker(
-            context: context,
-            initialDate: _patient.birthDate,
-            firstDate: DateTime.now().subtract(Duration(days: 54750)),
-            lastDate: DateTime.now(),
-          );
-          final date = newDate ?? _patient.birthDate;
-          setState(() {
-            _patient.birthDate = date;
-          });
-        },
-        icon: Icon(Icons.calendar_today),
-        label: Text("${_patient.birthDate.day}/" +
-            "${_patient.birthDate.month}/" +
-            "${_patient.birthDate.year}"),
-      ),
-    ],
-  );
+  Widget _buildBirthDateField() => Row(
+        children: [
+          Text("Data de nascimento: "),
+          ElevatedButton.icon(
+            onPressed: () async {
+              final newDate = await showDatePicker(
+                context: context,
+                initialDate: _patient.birthDate,
+                firstDate: DateTime.now().subtract(Duration(days: 54750)),
+                lastDate: DateTime.now(),
+              );
+              final date = newDate ?? _patient.birthDate;
+              setState(() {
+                _patient.birthDate = date;
+              });
+            },
+            icon: Icon(Icons.calendar_today),
+            label: Text("${_patient.birthDate.day}/" +
+                "${_patient.birthDate.month}/" +
+                "${_patient.birthDate.year}"),
+          ),
+        ],
+      );
 
-  late final _bedTextField = Row(
-    children: [
-      Flexible(
-        child: TextFormField(
-          initialValue: _patient.bed,
-          onChanged: (newValue) {
-            setState(() {
-              _patient.bed = newValue;
-            });
-          },
-          decoration: _getDecoration(labelText: "Leito"),
-        ),
-      ),
-    ],
-  );
+  Widget _buildBedTextField() => Row(
+        children: [
+          Flexible(
+            child: TextFormField(
+              initialValue: _patient.bed,
+              onChanged: (newValue) {
+                setState(() {
+                  _patient.bed = newValue;
+                });
+              },
+              decoration: _getDecoration(labelText: "Leito"),
+            ),
+          ),
+        ],
+      );
 
-  late final _prognosisTextField = Row(
-    children: [
-      Flexible(
-        child: TextFormField(
-          initialValue: _patient.prognosis,
-          onChanged: (newValue) {
-            setState(() {
-              _patient.prognosis = newValue;
-            });
-          },
-          decoration: _getDecoration(labelText: "Prognóstico"),
-        ),
-      ),
-    ],
-  );
+  Widget _buildPrognosisTextField() => Row(
+        children: [
+          Flexible(
+            child: TextFormField(
+              initialValue: _patient.prognosis,
+              onChanged: (newValue) {
+                setState(() {
+                  _patient.prognosis = newValue;
+                });
+              },
+              decoration: _getDecoration(labelText: "Prognóstico"),
+            ),
+          ),
+        ],
+      );
 
-  late final _noteTextField = Row(
-    children: [
-      Flexible(
-        child: TextFormField(
-          initialValue: _patient.note,
-          maxLines: null,
-          onChanged: (newValue) {
-            setState(() {
-              _patient.note = newValue;
-            });
-          },
-          decoration: _getDecoration(labelText: "Observações"),
-        ),
-      ),
-    ],
-  );
+  Widget _buildNoteTextField() => Row(
+        children: [
+          Flexible(
+            child: TextFormField(
+              initialValue: _patient.note,
+              maxLines: null,
+              onChanged: (newValue) {
+                setState(() {
+                  _patient.note = newValue;
+                });
+              },
+              decoration: _getDecoration(labelText: "Observações"),
+            ),
+          ),
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -257,15 +257,15 @@ class _PatientAddViewState extends State<PatientAddView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _isEditMode == true ? _buildPatientID : SizedBox.shrink(),
-                  _fullNameTextField,
-                  _cpfTextField,
-                  _genderDropdownField,
-                  _statusDropdownField,
-                  _birthDateField,
-                  _bedTextField,
-                  _prognosisTextField,
-                  _noteTextField,
+                  _isEditMode == true ? _buildPatientID() : SizedBox.shrink(),
+                  _buildFullNameTextField(),
+                  _buildCPFTextField(),
+                  _buildGenderDropdownField(),
+                  _buildStatusDropdownField(),
+                  _buildBirthDateField(),
+                  _buildBedTextField(),
+                  _buildPrognosisTextField(),
+                  _buildNoteTextField(),
                   MenuAdd(
                       title: "Adicionar doença existente",
                       list: _patient.illnesses),
