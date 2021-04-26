@@ -3,6 +3,7 @@ import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/device_service.dart';
 import 'package:app_medical_monitor/views/device_add_view.dart';
 import 'package:app_medical_monitor/views/device_monitor_view.dart';
+import 'package:app_medical_monitor/views/patient_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,17 @@ class DeviceView extends StatefulWidget {
 
 class _DeviceViewState extends State<DeviceView> {
   late Device _device;
+
+  void _handleNavigatePatientView() {
+    final patient = widget._device.patient;
+    if (patient != null)
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              PatientView(widget._loggedUser, widget._device.patient!),
+        ),
+      );
+  }
 
   _buildEditBtn(BuildContext context) => IconButton(
       icon: Icon(Icons.edit),
@@ -135,6 +147,19 @@ class _DeviceViewState extends State<DeviceView> {
           ListTile(
             title: Text("Status"),
             subtitle: Text(_device.status.displayName),
+          ),
+          ListTile(
+            title: Text('Sendo utilizado por:'),
+            subtitle: Text(this._device.patient?.fullName ?? 'Nenhum paciente'),
+            leading: Icon(Icons.person),
+            trailing: widget._device.patient != null
+                ? TextButton(
+                    onPressed: _handleNavigatePatientView,
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue, primary: Colors.white),
+                    child: Text("Ver mais"),
+                  )
+                : null,
           ),
           ListTile(
             leading: _device.canMeasureHeartRate

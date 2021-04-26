@@ -1,6 +1,8 @@
+import 'package:app_medical_monitor/models/device.dart';
 import 'package:app_medical_monitor/models/patient.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/patient_service.dart';
+import 'package:app_medical_monitor/views/device_monitor_view.dart';
 import 'package:app_medical_monitor/views/patient_add_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,17 @@ class PatientView extends StatefulWidget {
 
 class _PatientViewState extends State<PatientView> {
   late Patient _patient;
+
+  _handleNavigateMonitor(Device device) {
+    return () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DeviceMonitorView(
+              widget._loggedUser,
+              device: device,
+            ),
+          ),
+        );
+  }
 
   _buildEditBtn(BuildContext context) => IconButton(
       icon: Icon(Icons.edit),
@@ -106,12 +119,62 @@ class _PatientViewState extends State<PatientView> {
     _patient = widget._patient;
   }
 
+  _buildDeviceListBtn() => IconButton(
+      icon: Icon(Icons.view_sidebar_outlined),
+      tooltip: this._patient.devices.isEmpty
+          ? "Sem dispositivos"
+          : "Ver dispositivos",
+      onPressed: this._patient.devices.isNotEmpty
+          ? () async {
+              buildOptionItem(Device device) => Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: ListTile(
+                      onTap: _handleNavigateMonitor(device),
+                      title: Text(
+                        device.title,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      leading: Icon(
+                        Icons.view_sidebar_outlined,
+                        color: Colors.white,
+                      ),
+                      tileColor: Colors.blue,
+                    ),
+                  );
+
+              final deviceListOptions = this
+                  ._patient
+                  .devices
+                  .map((device) => buildOptionItem(device))
+                  .toList();
+
+              showDialog(
+                context: context,
+                builder: (context) => SimpleDialog(
+                  children: [...deviceListOptions],
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Dispositivos"),
+                        IconButton(
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                            ),
+                            onPressed: () => Navigator.of(context).pop())
+                      ]),
+                ),
+              );
+            }
+          : null);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Paciente"),
         actions: [
+          _buildDeviceListBtn(),
           _buildEditBtn(context),
           _buildDeleteBtn(context),
         ],
