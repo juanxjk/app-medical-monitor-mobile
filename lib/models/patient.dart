@@ -115,7 +115,7 @@ class Patient {
       'status': this.status.name,
       'bed': this.bed,
       'note': this.note,
-      'devices': this.devices,
+      'devices': this.devices.map((device) => device.id).toList(),
       'illnesses': this.illnesses,
       'comorbidities': this.comorbidities,
       'prognosis': this.prognosis,
