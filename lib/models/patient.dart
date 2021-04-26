@@ -93,7 +93,11 @@ class Patient {
         this.comorbidities = (json['comorbidities'] as List<dynamic>)
             .map((e) => e.toString())
             .toList(),
-        this.prognosis = json['prognosis'] ?? "";
+        this.prognosis = json['prognosis'] ?? "" {
+    this.devices.forEach((device) {
+      device.patient = this;
+    });
+  }
 
   static List<Patient> fromJsonList(List<dynamic>? jsonList) {
     final List<Patient> list =
