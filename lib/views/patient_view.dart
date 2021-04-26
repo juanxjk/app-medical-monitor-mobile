@@ -206,7 +206,7 @@ class _PatientViewState extends State<PatientView> {
           ),
           ListTile(
             title: Text("Status"),
-            subtitle: Text(_patient.status.toString()),
+            subtitle: Text(_patient.status.displayName),
           ),
           ListTile(
             title: Text("Leito"),

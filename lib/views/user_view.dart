@@ -139,7 +139,7 @@ class _UserViewState extends State<UserView> {
           ),
           ListTile(
             title: Text("Função"),
-            subtitle: Text(_user.role.toString()),
+            subtitle: Text(_user.role.displayName),
           ),
           ListTile(
             title: Text("Conta verificada"),
