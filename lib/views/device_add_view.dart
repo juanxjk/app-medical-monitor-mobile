@@ -188,7 +188,7 @@ class _DeviceAddViewState extends State<DeviceAddView> {
     );
 
     setState(() {
-      this._device.patient = returnPatient;
+      if (returnPatient != null) this._device.patient = returnPatient;
     });
   }
 
