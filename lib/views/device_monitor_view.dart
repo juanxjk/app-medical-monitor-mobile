@@ -98,7 +98,8 @@ class _DeviceMonitorViewState extends State<DeviceMonitorView> {
 // Styles & Decorations ========================================================
   _getTitleStyle() =>
       TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700);
-  _getInfoValueStyle() => TextStyle(color: Colors.white, fontSize: 16);
+  _getInfoValueStyle({double? fontSize}) =>
+      TextStyle(color: Colors.white, fontSize: fontSize ?? 18);
   _getMonitorValueStyle() => TextStyle(color: Colors.white, fontSize: 48);
   _getMonitorValueTypeStyle() => TextStyle(color: Colors.white, fontSize: 26);
   _getMonitorValueDateStyle() => TextStyle(color: Colors.white54, fontSize: 14);
@@ -118,6 +119,7 @@ class _DeviceMonitorViewState extends State<DeviceMonitorView> {
     Widget buildItem({
       required String title,
       required String subtitle,
+      double? subtitleFontSize,
       Widget? subtitleIcon,
     }) =>
         Padding(
@@ -132,9 +134,12 @@ class _DeviceMonitorViewState extends State<DeviceMonitorView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   subtitleIcon ?? SizedBox.shrink(),
-                  Text(
-                    subtitle,
-                    style: _getInfoValueStyle(),
+                  Expanded(
+                    child: Text(
+                      subtitle,
+                      style: _getInfoValueStyle(fontSize: subtitleFontSize),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               )
@@ -154,7 +159,10 @@ class _DeviceMonitorViewState extends State<DeviceMonitorView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildItem(title: widget._device.title, subtitle: widget._device.id!),
+          buildItem(
+              title: widget._device.title,
+              subtitle: widget._device.id!,
+              subtitleFontSize: 16),
           buildItem(title: 'Paciente monitorado', subtitle: currentPatient),
           buildItem(
               title: 'Conexão',
