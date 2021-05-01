@@ -325,26 +325,28 @@ class _DeviceAddViewState extends State<DeviceAddView> {
                   color: Colors.white,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _device.patient?.fullName ?? "Associar um paciente",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _device.patient?.fullName ?? "Associar um paciente",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    Text(
-                      _device.patient?.cpf ?? "Aperte escolher um paciente",
-                      style: TextStyle(
-                        color: Colors.white38,
-                        fontSize: 14,
+                      Text(
+                        _device.patient?.cpf ?? "Aperte escolher um paciente",
+                        style: TextStyle(
+                          color: Colors.white38,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
