@@ -96,22 +96,74 @@ class _PatientViewState extends State<PatientView> {
         });
   }
 
-  List<Widget> _buildItemList({
+  Widget _buildItemList({
+    required String title,
     required String notFoundText,
     required List<String> itemList,
+    MaterialColor color = Colors.blue,
   }) {
-    if (itemList.isEmpty) return [Text(notFoundText)];
-    return itemList.asMap().entries.map((entry) {
-      int index = entry.key;
-      String comorbidity = entry.value;
-      return ListTile(
-        title: Text(comorbidity),
-        leading: Icon(
-          Icons.circle,
-          size: 20,
-        ),
-      );
+    Widget buildItem(String value) => ListTile(
+          title: Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          leading: Icon(
+            Icons.circle,
+            size: 15,
+            color: color,
+          ),
+        );
+
+    final List<Widget> widgetsList = itemList.map((itemName) {
+      return buildItem(itemName);
     }).toList();
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      child: Column(
+        // mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                child: Icon(
+                  Icons.warning,
+                  color: color,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          widgetsList.isEmpty
+              ? ListTile(
+                  title: Text(
+                    notFoundText,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.done,
+                    size: 25,
+                    color: Colors.blue,
+                  ),
+                )
+              : SizedBox.shrink(),
+          ...widgetsList
+        ],
+      ),
+    );
   }
 
   @override
@@ -224,22 +276,17 @@ class _PatientViewState extends State<PatientView> {
             subtitle:
                 Text(_patient.note.isEmpty ? "Sem observações" : _patient.note),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Doenças:"),
-              ..._buildItemList(
-                  notFoundText: "Sem doenças", itemList: _patient.illnesses)
-            ],
+          _buildItemList(
+            title: "Doenças",
+            notFoundText: "Sem doenças",
+            itemList: _patient.illnesses,
+            color: Colors.red,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Comorbidades:"),
-              ..._buildItemList(
-                  notFoundText: "Sem comorbidades",
-                  itemList: _patient.comorbidities)
-            ],
+          _buildItemList(
+            title: "Comorbidades",
+            notFoundText: "Sem comorbidades",
+            itemList: _patient.comorbidities,
+            color: Colors.orange,
           ),
         ],
       ),
