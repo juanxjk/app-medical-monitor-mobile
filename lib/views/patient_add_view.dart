@@ -5,6 +5,7 @@ import 'package:app_medical_monitor/services/patient_service.dart';
 import 'package:app_medical_monitor/views/utils/date_format.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PatientAddView extends StatefulWidget {
   final User _loggedUser;
@@ -83,6 +84,8 @@ class _PatientAddViewState extends State<PatientAddView> {
             child: TextFormField(
               initialValue: _patient.fullName,
               decoration: _getDecoration(labelText: "Nome completo"),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textInputAction: TextInputAction.next,
               onChanged: (newValue) {
                 setState(() {
                   _patient.fullName = newValue;
@@ -102,6 +105,11 @@ class _PatientAddViewState extends State<PatientAddView> {
             child: TextFormField(
               initialValue: _patient.cpf,
               decoration: _getDecoration(labelText: "CPF"),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textInputAction: TextInputAction.next,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+              maxLength: 11,
               onChanged: (newValue) {
                 setState(() {
                   _patient.cpf = newValue;
@@ -109,6 +117,9 @@ class _PatientAddViewState extends State<PatientAddView> {
               },
               validator: (String? value) {
                 if (value?.isEmpty ?? true) return "Campo obrigatório";
+                if (value!.length != 11) return "CPF precisa de 11 dígitos";
+                if (RegExp(r"\D+").hasMatch(value))
+                  return "CPF não pode ter letras";
               },
             ),
           ),
@@ -199,6 +210,7 @@ class _PatientAddViewState extends State<PatientAddView> {
           Flexible(
             child: TextFormField(
               initialValue: _patient.bed,
+              textInputAction: TextInputAction.next,
               onChanged: (newValue) {
                 setState(() {
                   _patient.bed = newValue;
@@ -215,6 +227,7 @@ class _PatientAddViewState extends State<PatientAddView> {
           Flexible(
             child: TextFormField(
               initialValue: _patient.prognosis,
+              textInputAction: TextInputAction.next,
               onChanged: (newValue) {
                 setState(() {
                   _patient.prognosis = newValue;
@@ -232,6 +245,7 @@ class _PatientAddViewState extends State<PatientAddView> {
             child: TextFormField(
               initialValue: _patient.note,
               maxLines: null,
+              textInputAction: TextInputAction.next,
               onChanged: (newValue) {
                 setState(() {
                   _patient.note = newValue;
