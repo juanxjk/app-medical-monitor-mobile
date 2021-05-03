@@ -48,6 +48,88 @@ class _DashboardViewState extends State<DashboardView> {
     showErrorSnackBar(context, message: "Desconectado.");
   }
 
+  _buildIsVerifiedAlert(bool isVerified) => isVerified
+      ? SizedBox.shrink()
+      : Container(
+          padding: EdgeInsets.all(15),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5), color: Colors.orange),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                "Conta não verificada!",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+            ],
+          ),
+        );
+
+  Widget _buildWelcomeCard() {
+    const textColor = Colors.white;
+    const bodyColor = Colors.white54;
+    final welcomeStyle = const TextStyle(fontSize: 16, color: textColor);
+    final titleStyle = const TextStyle(fontSize: 26, color: textColor);
+    final labelStyle = const TextStyle(
+        fontSize: 18, color: textColor, fontWeight: FontWeight.bold);
+    final bodyStyle = const TextStyle(fontSize: 16, color: bodyColor);
+
+    return Card(
+      color: Colors.blue,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  child: Text("Bem-vindo, ", style: welcomeStyle),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child:
+                          Text(widget._loggedUser.fullName, style: titleStyle),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            title: Text("Username", style: labelStyle),
+            subtitle: Text(widget._loggedUser.username, style: bodyStyle),
+            leading: Icon(Icons.person, color: Colors.white),
+          ),
+          ListTile(
+            title: Text("Função", style: labelStyle),
+            subtitle:
+                Text(widget._loggedUser.role.displayName, style: bodyStyle),
+            leading: Icon(Icons.label, color: textColor),
+          ),
+          ListTile(
+            title: Text("E-mail", style: labelStyle),
+            subtitle: Text(widget._loggedUser.email, style: bodyStyle),
+            leading: Icon(Icons.email, color: textColor),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,25 +150,8 @@ class _DashboardViewState extends State<DashboardView> {
         ),
         body: ListView(
           children: [
-            Card(
-              margin: EdgeInsets.fromLTRB(10, 25, 10, 25),
-              child: Column(
-                children: [
-                  Text("Bem-vindo ${widget._loggedUser.fullName}"),
-                  ListTile(
-                    title: Text("Username"),
-                    subtitle: Text(widget._loggedUser.username),
-                  ),
-                  ListTile(
-                    title: Text("E-mail"),
-                    subtitle: Text(widget._loggedUser.email),
-                  ),
-                  SizedBox(
-                    height: 35,
-                  )
-                ],
-              ),
-            ),
+            _buildIsVerifiedAlert(widget._loggedUser.isVerified),
+            _buildWelcomeCard(),
             GridView.count(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
