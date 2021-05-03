@@ -97,12 +97,16 @@ class _LoginViewState extends State<LoginView> {
     );
 
     final _logoImg = Container(
-      height: 100,
-      width: 150,
-      margin: EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(color: Colors.grey),
+      height: 135,
+      width: 175,
+      margin: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Center(
-        child: Text("LOGO"),
+        child: Text(
+          "LOGO",
+          style: TextStyle(fontSize: 32),
+        ),
       ),
     );
 
