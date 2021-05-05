@@ -3,6 +3,7 @@ import 'package:app_medical_monitor/exceptions/validation_exception.dart';
 import 'package:app_medical_monitor/models/user.dart';
 import 'package:app_medical_monitor/services/session_service.dart';
 import 'package:app_medical_monitor/views/dashboard_view.dart';
+import 'package:app_medical_monitor/views/signup_view.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,8 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _handleSignUp() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SignUpView()));
   }
 
   String? _validateUsername(String value) {

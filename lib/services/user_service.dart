@@ -10,6 +10,20 @@ class UserService implements Service<User> {
 
   UserService({required String token}) : this._token = token;
 
+  static Future<void> saveGuestUser(User user) async {
+    Uri url = baseUrl.resolve("/public/users");
+    Map<String, dynamic> bodyJson = user.toJson();
+    final body = jsonEncode(bodyJson);
+    final response = await http
+        .post(url, headers: headers, body: body)
+        .timeout(Duration(milliseconds: 1000));
+    if (response.statusCode == 201) {
+      return;
+    }
+
+    throw Exception("Unexpected error on UserService: saveGuestUser");
+  }
+
   Future<List<User>> findAll(
       {int page = 1, int size = 10, String name = ""}) async {
     final String path = "/users?page=$page&size=$size&name=$name";
