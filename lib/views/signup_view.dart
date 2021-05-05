@@ -1,4 +1,5 @@
 import 'package:app_medical_monitor/models/user.dart';
+import 'package:app_medical_monitor/services/user_service.dart';
 import 'package:app_medical_monitor/views/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,9 @@ class _SignUpViewState extends State<SignUpView> {
   void _handleSubmit() async {
     try {
       if (_formKey.currentState?.validate() ?? false) {
+        await UserService.saveGuestUser(this._editUser);
         showSuccessSnackBar(context, message: "Usuário criado");
+        Navigator.of(context).pop();
       } else
         showErrorSnackBar(context, message: "Campos inválidos.");
     } catch (err) {
