@@ -1,7 +1,7 @@
 import 'package:app_medical_monitor/models/session.dart';
 import 'package:flutter/foundation.dart';
 
-enum UserRole { admin, doctor, nurse, patient, guest }
+enum UserRole { admin, doctor, nurse, physiotherapist, patient, guest }
 
 extension UserRoleExtention on UserRole {
   static UserRole fromString(String status) {
@@ -17,6 +17,8 @@ extension UserRoleExtention on UserRole {
         return "médico";
       case UserRole.nurse:
         return "enfermeiro";
+      case UserRole.physiotherapist:
+        return "fisioterapeuta";
       case UserRole.patient:
         return "paciente";
       case UserRole.guest:
